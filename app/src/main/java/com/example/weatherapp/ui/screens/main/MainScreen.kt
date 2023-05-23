@@ -1,6 +1,8 @@
 package com.example.weatherapp.ui.screens.main
 
+import android.annotation.SuppressLint
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.produceState
@@ -19,25 +21,33 @@ fun MainScreen(
     navController: NavController,
     mainViewMode: MainViewModel = hiltViewModel()
 ) {
-   ShowData(mainViewMode)
-}
 
-@Composable
-fun ShowData(mainViewMode: MainViewModel) {
    val weatherData = produceState<DataOrException<WeatherResponse, Boolean, Exception>>(
        initialValue = DataOrException(loading = true),
        producer = {
-        //  value = mainViewMode.data.value
+          //  value = mainViewMode.data.value
           value = mainViewMode.getWeatherData(city = "Москва")
        }
    ).value
 
-   if(weatherData.loading == true){
+   if (weatherData.loading == true) {
       CircularProgressIndicator()
-   }else if(weatherData.data!= null){
-      Text(text = "Main ${weatherData.data!!}")
+   } else if (weatherData.data != null) {
+      MainScaffold(weather = weatherData.data!!, navController = navController)
+   }
+}
+
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@Composable
+fun MainScaffold(weather: WeatherResponse, navController: NavController) {
+   Scaffold(topBar = {
+
+   }) {
+      MainContent(data = weather)
    }
 
+}
 
-
+@Composable fun MainContent(data: WeatherResponse) {
+   Text(text =data.city.name)
 }
