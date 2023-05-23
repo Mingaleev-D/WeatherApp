@@ -1,15 +1,20 @@
 package com.example.weatherapp.ui.screens.main
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.produceState
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.weatherapp.data.common.DataOrException
 import com.example.weatherapp.data.model.WeatherResponse
+import com.example.weatherapp.ui.widgets.WeatherAppBar
 
 /**
  * @author : Mingaleev D
@@ -26,7 +31,7 @@ fun MainScreen(
        initialValue = DataOrException(loading = true),
        producer = {
           //  value = mainViewMode.data.value
-          value = mainViewMode.getWeatherData(city = "Москва")
+          value = mainViewMode.getWeatherData(city = "Kazan")
        }
    ).value
 
@@ -41,13 +46,21 @@ fun MainScreen(
 @Composable
 fun MainScaffold(weather: WeatherResponse, navController: NavController) {
    Scaffold(topBar = {
-
+      WeatherAppBar(
+          title = weather.city.name,
+          navController = navController,
+          elevation = 6.dp,
+          //icon = Icons.Default.ArrowBack,
+          onButtonClicked = {
+             Log.d("TAG", "MainScaffold: Button cliked")
+          }
+      )
    }) {
-      MainContent(data = weather)
+      //MainContent(data = weather)
    }
 
 }
 
 @Composable fun MainContent(data: WeatherResponse) {
-   Text(text =data.city.name)
+   Text(text = data.city.name)
 }
