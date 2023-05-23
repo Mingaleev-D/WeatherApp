@@ -1,11 +1,13 @@
 package com.example.weatherapp.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.weatherapp.ui.screens.WeatherSplashScreen
 import com.example.weatherapp.ui.screens.main.MainScreen
+import com.example.weatherapp.ui.screens.main.MainViewModel
 
 /**
  * @author : Mingaleev D
@@ -32,7 +34,8 @@ fun WeatherNavigation() {
          WeatherSplashScreen(navController = navController)
       }
       composable(route = WeatherScreen.MainScreen.name) {
-         MainScreen(navController = navController)
+         val mainViewModel = hiltViewModel<MainViewModel>()
+         MainScreen(navController = navController, mainViewModel)
       }
    }
 }
