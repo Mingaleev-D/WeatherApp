@@ -9,4 +9,5 @@ object Constants {
    const val BASE_LANGUAGE = "ru"
    const val BASE_VALUE = "data/2.5/forecast/daily"
    const val BASE_UNITS = "metric"
+   const val BASE_URL_IMAGE = "https://openweathermap.org/img/wn/"
 }
